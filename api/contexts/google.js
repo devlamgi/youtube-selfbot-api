@@ -200,6 +200,18 @@ module.exports = class {
                         })
                     }
 
+                    // recovery email
+                    if(await this.#page.$(`[data-challengetype="12"]`)){
+                        await Promise.all([
+                            this.#page.waitForNavigation({waitUntil: "networkidle2"}),
+                            this.#page.click(`[data-challengetype="12"]`)
+                        ]);
+                        await sleep(1500);
+                        await this.#page.type(`#knowledge-preregistered-email-response`, accountInfo.recovery, { delay: 75 }).catch(reject)
+                        this.#page.click(`button`)
+                        await sleep(1000);
+                    }
+
                     if(await this.#page.$(`button[jsname="bySMBb"]`)){
                         await Promise.all([
                             this.#page.waitForNavigation({waitUntil: "networkidle2"}),
